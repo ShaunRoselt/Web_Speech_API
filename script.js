@@ -112,7 +112,7 @@ const populateVoiceSelect = () => {
   }
 
   const previousValue = voiceSelect.value;
-  voices = [...availableVoices].sort((first, second) => first.lang.localeCompare(second.lang) || first.name.localeCompare(second.name));
+  voices = [...availableVoices].sort((voiceA, voiceB) => voiceA.lang.localeCompare(voiceB.lang) || voiceA.name.localeCompare(voiceB.name));
   voiceSelect.replaceChildren(
     ...voices.map((voice, index) => {
       const option = document.createElement('option');

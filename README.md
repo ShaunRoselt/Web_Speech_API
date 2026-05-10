@@ -20,7 +20,7 @@ Because this is a static app, you can either:
 Example:
 
 ```bash
-cd /home/runner/work/Web_Speech_API/Web_Speech_API
+cd path/to/Web_Speech_API
 python3 -m http.server 8000
 ```
 
