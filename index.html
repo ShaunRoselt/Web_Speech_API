@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Speech API Demo</title>
+    <meta
+      name="description"
+      content="A full demo app for the Web Speech API with text to speech and speech to text tabs."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero card">
+        <p class="eyebrow">Web Speech API Demo</p>
+        <h1>Try text to speech and speech recognition in one place.</h1>
+        <p class="hero-copy">
+          Switch between tabs to hear synthetic voices, transcribe your speech, and explore browser support for the Web Speech API.
+        </p>
+        <div class="support-grid">
+          <article class="support-card">
+            <span class="support-label">Speech Synthesis</span>
+            <strong id="tts-support">Checking support…</strong>
+          </article>
+          <article class="support-card">
+            <span class="support-label">Speech Recognition</span>
+            <strong id="stt-support">Checking support…</strong>
+          </article>
+        </div>
+      </section>
+
+      <section class="tabs card" aria-label="Demo sections">
+        <div class="tab-list" role="tablist" aria-label="Web Speech API demos">
+          <button
+            class="tab-button active"
+            id="tab-tts"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-tts"
+            data-tab="tts"
+          >
+            Text to Speech
+          </button>
+          <button
+            class="tab-button"
+            id="tab-stt"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-stt"
+            data-tab="stt"
+            tabindex="-1"
+          >
+            Speech to Text
+          </button>
+        </div>
+
+        <section
+          class="tab-panel active"
+          id="panel-tts"
+          role="tabpanel"
+          aria-labelledby="tab-tts"
+        >
+          <div class="panel-grid">
+            <article class="panel-card">
+              <div class="section-heading">
+                <h2>Text to Speech</h2>
+                <p>Type a message, choose a voice, and adjust playback settings.</p>
+              </div>
+
+              <label class="field-label" for="tts-text">Text to speak</label>
+              <textarea id="tts-text" rows="7">Hello! Welcome to the Web Speech API demo. Use this tab to experiment with speech synthesis voices, pitch, rate, and volume.</textarea>
+
+              <div class="field-grid two-columns">
+                <div>
+                  <label class="field-label" for="voice-select">Voice</label>
+                  <select id="voice-select"></select>
+                </div>
+                <div>
+                  <label class="field-label" for="voice-language">Voice language</label>
+                  <input id="voice-language" type="text" readonly value="Loading voices…" />
+                </div>
+              </div>
+
+              <div class="slider-grid">
+                <label>
+                  <span class="field-label">Rate</span>
+                  <div class="slider-row">
+                    <input id="rate" type="range" min="0.5" max="2" value="1" step="0.1" />
+                    <output id="rate-value" for="rate">1.0</output>
+                  </div>
+                </label>
+                <label>
+                  <span class="field-label">Pitch</span>
+                  <div class="slider-row">
+                    <input id="pitch" type="range" min="0" max="2" value="1" step="0.1" />
+                    <output id="pitch-value" for="pitch">1.0</output>
+                  </div>
+                </label>
+                <label>
+                  <span class="field-label">Volume</span>
+                  <div class="slider-row">
+                    <input id="volume" type="range" min="0" max="1" value="1" step="0.1" />
+                    <output id="volume-value" for="volume">1.0</output>
+                  </div>
+                </label>
+              </div>
+
+              <div class="button-row">
+                <button id="speak-button" type="button" class="primary-button">Speak</button>
+                <button id="pause-button" type="button">Pause</button>
+                <button id="resume-button" type="button">Resume</button>
+                <button id="stop-button" type="button">Stop</button>
+              </div>
+
+              <p class="status-text" id="tts-status" aria-live="polite">
+                Ready to speak.
+              </p>
+            </article>
+
+            <aside class="panel-card info-card">
+              <div class="section-heading">
+                <h2>What to try</h2>
+                <p>Quick ideas for exploring speech synthesis.</p>
+              </div>
+              <ul class="feature-list">
+                <li>Compare voices from different languages and locales.</li>
+                <li>Slow the rate down for clearer playback or speed it up.</li>
+                <li>Adjust pitch and volume to hear how the voice changes.</li>
+                <li>Pause and resume ongoing speech without losing your text.</li>
+              </ul>
+            </aside>
+          </div>
+        </section>
+
+        <section
+          class="tab-panel"
+          id="panel-stt"
+          role="tabpanel"
+          aria-labelledby="tab-stt"
+          hidden
+        >
+          <div class="panel-grid">
+            <article class="panel-card">
+              <div class="section-heading">
+                <h2>Speech to Text</h2>
+                <p>Use your microphone to capture spoken words and view live transcripts.</p>
+              </div>
+
+              <div class="field-grid two-columns">
+                <div>
+                  <label class="field-label" for="recognition-language">Recognition language</label>
+                  <select id="recognition-language">
+                    <option value="en-US">English (US)</option>
+                    <option value="en-GB">English (UK)</option>
+                    <option value="es-ES">Spanish</option>
+                    <option value="fr-FR">French</option>
+                    <option value="de-DE">German</option>
+                    <option value="it-IT">Italian</option>
+                    <option value="ja-JP">Japanese</option>
+                    <option value="pt-BR">Portuguese (Brazil)</option>
+                  </select>
+                </div>
+                <div class="toggle-grid">
+                  <label class="toggle-option">
+                    <input id="continuous-mode" type="checkbox" />
+                    <span>Continuous mode</span>
+                  </label>
+                  <label class="toggle-option">
+                    <input id="interim-mode" type="checkbox" checked />
+                    <span>Show interim results</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="button-row">
+                <button id="start-listening" type="button" class="primary-button">Start listening</button>
+                <button id="stop-listening" type="button">Stop listening</button>
+                <button id="clear-transcript" type="button">Clear</button>
+                <button id="copy-transcript" type="button">Copy transcript</button>
+              </div>
+
+              <p class="status-text" id="stt-status" aria-live="polite">
+                Ready to capture speech.
+              </p>
+
+              <div class="transcript-grid">
+                <article class="transcript-card">
+                  <div class="transcript-header">
+                    <h3>Final transcript</h3>
+                    <span class="badge">Stable text</span>
+                  </div>
+                  <p id="final-transcript" class="transcript-output">Your recognized speech will appear here.</p>
+                </article>
+                <article class="transcript-card">
+                  <div class="transcript-header">
+                    <h3>Interim transcript</h3>
+                    <span class="badge secondary">Live preview</span>
+                  </div>
+                  <p id="interim-transcript" class="transcript-output muted">Interim results will appear while listening.</p>
+                </article>
+              </div>
+            </article>
+
+            <aside class="panel-card info-card">
+              <div class="section-heading">
+                <h2>Recognition notes</h2>
+                <p>Helpful reminders before you start recording.</p>
+              </div>
+              <ul class="feature-list">
+                <li>Browser permission is required before microphone capture starts.</li>
+                <li>Continuous mode keeps recognition active across longer sessions.</li>
+                <li>Interim results update in real time and may change before they finalize.</li>
+                <li>Speech recognition support is more limited than speech synthesis across browsers.</li>
+              </ul>
+            </aside>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
